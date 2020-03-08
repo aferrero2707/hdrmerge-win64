@@ -4,9 +4,6 @@ sudo: required
 
 os:
   - linux
-  #- osx
-
-#osx_image: xcode8
 
 services:
   - docker
@@ -22,11 +19,7 @@ env:
   - BUILD_BRANCH=master
   - BUILD_BRANCH=release-v0.6
 
-before_install:
-    #- brew update
-  
 before_script:
-    #- echo "SLUG: $TRAVIS_REPO_SLUG"
     - git clone https://github.com/jcelaya/hdrmerge.git --branch "${BUILD_BRANCH}" --single-branch
     - cd hdrmerge && export GIT_DESCRIBE=$(git describe --tags --always)
     #- bash ../check_commit.sh "${BUILD_BRANCH}" "$TRAVIS_OS_NAME"
@@ -36,7 +29,7 @@ before_script:
 
 script:
     - cd $TRAVIS_BUILD_DIR
-    - sudo docker run -it -v $(pwd):/sources -e "BUILD_BRANCH=${BUILD_BRANCH}" -e "GIT_DESCRIBE=${GIT_DESCRIBE}" photoflow/docker-buildenv-mingw-manjaro-wine bash /sources/package-msys2.sh
+    - sudo docker run -it -v $(pwd):/sources -e "TRAVIS_BUILD_DIR=${TRAVIS_BUILD_DIR}" -e "BUILD_BRANCH=${BUILD_BRANCH}" -e "GIT_DESCRIBE=${GIT_DESCRIBE}" photoflow/docker-buildenv-mingw-manjaro-wine bash /sources/package-msys2.sh
     
 
 after_success:
