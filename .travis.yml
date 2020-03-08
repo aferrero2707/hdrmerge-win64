@@ -17,7 +17,7 @@ addons:
 
 env: 
   - BUILD_BRANCH=master
-  - BUILD_BRANCH=release-v0.6
+  #- BUILD_BRANCH=release-v0.6
 
 before_script:
     - git clone https://github.com/jcelaya/hdrmerge.git --branch "${BUILD_BRANCH}" --single-branch
