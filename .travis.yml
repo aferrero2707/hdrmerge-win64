@@ -42,7 +42,7 @@ after_success:
     - bash ./remove.sh "nightly" "hdrmerge_${BUILD_BRANCH}_" ".zip"
     - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
     #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" out/hdrmerge_${BUILD_BRANCH}_*.AppImage
-    - bash  ./upload_rotate.sh "nightly" out/hdrmerge_${BUILD_BRANCH}_*.zip
+    - bash  ./upload_rotate.sh "nightly" hdrmerge_${BUILD_BRANCH}_*.zip
     #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" $TRAVIS_BUILD_DIR/hdrmerge/commit-${BUILD_BRANCH}-${TRAVIS_OS_NAME}.hash >& /dev/null
     #- bash  ./upload_rotate.sh "continuous" out/*
 
