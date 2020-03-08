@@ -22,6 +22,7 @@ env:
 before_script:
     - git clone https://github.com/jcelaya/hdrmerge.git --branch "${BUILD_BRANCH}" --single-branch
     - cd hdrmerge && export GIT_DESCRIBE=$(git describe --tags --always)
+    - echo "GIT_DESCRIBE: ${GIT_DESCRIBE}"
     #- bash ../check_commit.sh "${BUILD_BRANCH}" "$TRAVIS_OS_NAME"
     #- 'if [ -e travis.cancel ]; then
     #      exit 0;
