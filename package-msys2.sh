@@ -26,7 +26,6 @@ transfer()
 export installdir=/mingw64
 
 if [ ! -e /work/build.done ]; then
-	rm -f /work/w64-build/rt/${RT_PREFIX}/rawtherapee.exe
 	$TRAVIS_BUILD_DIR/build-msys2.sh || exit 1
 fi
 
@@ -38,6 +37,7 @@ rm -rf ${REPACKAGEDIR}
 mkdir -p ${REPACKAGEDIR} || exit 1
 
 cp -a /work/w64-build/hdrmerge/hdrmerge.exe ${REPACKAGEDIR} || exit 1
+cp -a /work/w64-build/hdrmerge/hdrmerge-nogui.exe ${REPACKAGEDIR} || exit 1
 
 cd /msys2/mingw64/bin || exit 1
 cp -L libgomp-1.dll      libjasper-4.dll    libwinpthread-1.dll \
