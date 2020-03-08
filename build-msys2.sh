@@ -46,7 +46,7 @@ cd /work/w64-build || exit 1
 
 # build LibRaw 0.18
 if [ ! -e LibRaw ]; then
-	#git clone https://github.com/LibRaw/LibRaw-cmake.git || exit 1
+	git clone https://github.com/LibRaw/LibRaw-cmake.git || exit 1
 	git clone https://github.com/LibRaw/LibRaw.git || exit 1
     cd LibRaw || exit 1
     #git checkout 0.18.13 || exit 1
