@@ -1,0 +1,3 @@
+#! /bin/bash
+
+wine /msys2/mingw64/bin/rcc-real.exe "$@"

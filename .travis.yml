@@ -1,0 +1,59 @@
+language: generic
+
+sudo: required
+
+os:
+  - linux
+  #- osx
+
+#osx_image: xcode8
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - git
+      - wget
+      - curl
+
+env: 
+  - BUILD_BRANCH=master
+  - BUILD_BRANCH=release-v0.6
+
+before_install:
+    #- brew update
+  
+before_script:
+    #- echo "SLUG: $TRAVIS_REPO_SLUG"
+    - git clone https://github.com/jcelaya/hdrmerge.git --branch "${BUILD_BRANCH}" --single-branch
+    - cd hdrmerge && export GIT_DESCRIBE=$(git describe --tags --always)
+    #- bash ../check_commit.sh "${BUILD_BRANCH}" "$TRAVIS_OS_NAME"
+    #- 'if [ -e travis.cancel ]; then
+    #      exit 0;
+    #  fi'
+
+script:
+    - cd $TRAVIS_BUILD_DIR
+    - sudo docker run -it -v $(pwd):/sources -e "BUILD_BRANCH=${BUILD_BRANCH}" -e "GIT_DESCRIBE=${GIT_DESCRIBE}" photoflow/docker-buildenv-mingw-manjaro-wine bash /sources/package-msys2.sh
+    
+
+after_success:
+    - cd $TRAVIS_BUILD_DIR
+    - pwd
+    - ls -lh
+    - ls -lh out/* # Assuming you have some files in out/ that you would like to upload
+    - wget -c https://github.com/aferrero2707/uploadtool/raw/master/remove.sh
+    #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash ./remove.sh "nightly" "hdrmerge_${BUILD_BRANCH}_" ".AppImage"
+    - bash ./remove.sh "nightly" "hdrmerge_${BUILD_BRANCH}_" ".zip"
+    - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
+    #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" out/hdrmerge_${BUILD_BRANCH}_*.AppImage
+    - bash  ./upload_rotate.sh "nightly" out/hdrmerge_${BUILD_BRANCH}_*.zip
+    #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" $TRAVIS_BUILD_DIR/hdrmerge/commit-${BUILD_BRANCH}-${TRAVIS_OS_NAME}.hash >& /dev/null
+    #- bash  ./upload_rotate.sh "continuous" out/*
+
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)$/
