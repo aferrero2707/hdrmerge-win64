@@ -25,10 +25,10 @@ before_script:
     - pwd
     - export GIT_DESCRIBE=$(git describe --tags --always)
     - echo "${GIT_DESCRIBE}"
-    #- bash ../check_commit.sh "${BUILD_BRANCH}" "$TRAVIS_OS_NAME"
-    #- 'if [ -e travis.cancel ]; then
-    #      exit 0;
-    #  fi'
+    - bash ../check_commit.sh "${BUILD_BRANCH}" "win64"
+    - 'if [ -e travis.cancel -a "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+          exit 0;
+      fi'
 
 script:
     - cd $TRAVIS_BUILD_DIR
@@ -47,6 +47,7 @@ after_success:
     #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" out/hdrmerge_${BUILD_BRANCH}_*.AppImage
     - bash  ./upload_rotate.sh "nightly" hdrmerge_${BUILD_BRANCH}_*.zip
     #- TRAVIS_REPO_SLUG="jcelaya/hdrmerge" bash  ./upload_rotate.sh "nightly" $TRAVIS_BUILD_DIR/hdrmerge/commit-${BUILD_BRANCH}-${TRAVIS_OS_NAME}.hash >& /dev/null
+    - bash  ./upload_rotate.sh "nightly" $TRAVIS_BUILD_DIR/hdrmerge/commit-${BUILD_BRANCH}-win64.hash >& /dev/null
     #- bash  ./upload_rotate.sh "continuous" out/*
 
 branches:
