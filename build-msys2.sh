@@ -1,14 +1,14 @@
 #! /bin/bash
 
 echo "ls -l / [0]"
-ls -l / || exit 1
+ls -l /
 sudo pacman --noconfirm -Syu || exit 1
 echo "ls -l / [1]"
-ls -l / || exit 1
+ls -l /
 sudo pacman --noconfirm -S wget || exit 1
 (sudo mkdir -p /work && sudo chmod a+w /work) || exit 1
 echo "ls -l / [2]"
-ls -l / || exit 1
+ls -l /
 
 cd /work || exit 1
 
