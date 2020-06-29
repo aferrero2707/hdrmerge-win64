@@ -94,6 +94,9 @@ if [ ! -e exiv2-0.27.2-Source ]; then
  	(make -j 3 && sudo make install) || exit 1
 fi
 
+
+sudo pacman --noconfirm -S qt5-base || exit 1
+
 echo "Compiling HDRMerge"
 ls /sources/hdrmerge
 mkdir -p /work/w64-build/hdrmerge || exit 1
@@ -109,6 +112,7 @@ cd /work/w64-build/hdrmerge || exit 1
  -DCMAKE_EXE_LINKER_FLAGS_RELEASE="'-s -O3'" \
  -DWIN32=TRUE -DEXIV2_VERSION=0.27 \
  -DCMAKE_INSTALL_PREFIX=/msys2/mingw64 \
+ -DAUTORCC_EXECUTABLE="/usr/bin/rcc --verbose" \
  -DALGLIB_ROOT=$ALGLIB_ROOT -DALGLIB_INCLUDES=$ALGLIB_ROOT/src -DALGLIB_LIBRARIES=$ALGLIB_ROOT/src \
  /sources/hdrmerge && make -j 3) || exit 1
 
